@@ -14,7 +14,8 @@ python3 piedra_papel_tijera.py
 ```sh
 git clone
 cd app
-source env/bin/activate
+python3 -m venv env1
+source env1/bin/activate
 pip install -r requirements.txt
 python3 main.py
 ```
