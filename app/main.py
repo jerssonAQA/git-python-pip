@@ -1,35 +1,40 @@
-import read_csv
+#import read_csv
 import utils
 import charts
+import pandas as pd
+import numpy as np
 
 def run():
-  data = read_csv.read_csv('data.csv') #lectura del archivo
+  '''
+  data = read_csv.read_csv('data.csv') #lectura del archivo'''
+  df= pd.read_csv('data.csv')
   opcion=utils.menu()
   while True:
     if opcion=='1':
       country = input('Type Country => ') 
-      result= utils.population_by_country(data, country)#devuelve el direccionario de un pais en especifico (country)
-      if len(result)>0: # si es cero es porque no encontro pais con esa descripcion
-        country=result[0]
-        labels,values=utils.get_population(country)
-        charts.generate_bar_chart(country['Country/Territory'],labels,values)
+      df=df[df['Country/Territory']==country]
+      labels=df.columns.values
+      labels=labels[5:13]
+      print(labels)
+      values1=df[df.columns[5:13]].values
+      values2=values1[0]
+      charts.generate_bar_chart(country,labels,values2)
     elif (opcion=='2'):
-      utils.listas(opcion)
-      countries= list(map(lambda x:x['Country/Territory'],data))
-      percentages= list(map(lambda x:float(x['World Population Percentage']),data))
+      countries=df['Country/Territory'].values
+      percentages =df['World Population Percentage'].values
       charts.generate_pie_chart(countries,percentages)
-      
     elif  opcion=='3':
       name_continent=input('Ingrese el nombre de continente:')
-      if (name_continent in list(map(lambda x:x['Continent'],data))):
-        print(' Visualizacion de datos segun '+name_continent)
-        data= list(filter(lambda x:x['Continent'] ==name_continent,data))
-        countries= list(map(lambda x:x['Country/Territory'],data))
-        percentages= list(map(lambda x:float(x['World Population Percentage']),data))
-        charts.generate_pie_chart(countries,percentages)
-      else:
-        print('Opcion no valida')
-    
+      #if (name_continent in df[df['Continent'] ==name_continent]):
+      print(' Visualizacion de datos segun '+name_continent)
+      df =df[df['Continent'] ==name_continent]
+      countries =df['Country/Territory'].values
+      percentages= df['World Population Percentage'].values
+      print(percentages)
+      print(type(percentages))
+      charts.generate_pie_chart(countries,percentages)
+      #else:
+       # print('Opcion no valida')
     
 
 if __name__ == '__main__':

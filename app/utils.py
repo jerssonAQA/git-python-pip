@@ -25,7 +25,7 @@ def menu():
   opcion=''
   while True:
     opcion=input('ingrese su opción: ')
-    if (opcion in '[1-3]'):
+    if (opcion in '[1,2,3]'):
       return opcion
     print('Opcion no valida')
     
